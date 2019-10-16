@@ -45,6 +45,7 @@ public class SwapRowServer extends Thread {
 			byte[] data = null;
 			
 			packet.setData(buf);
+			
 			try {
 				socket.receive(packet);
 			} catch (IOException e1) {
@@ -52,44 +53,46 @@ public class SwapRowServer extends Thread {
 				e1.printStackTrace();
 			}
 			
-				ByteArrayInputStream biStream = new ByteArrayInputStream(packet.getData(),0, packet.getLength());
-				DataInputStream diStream = new DataInputStream(biStream);
-				String richiesta = null;
+			ByteArrayInputStream biStream = new ByteArrayInputStream(packet.getData(),0, packet.getLength());
+			DataInputStream diStream = new DataInputStream(biStream);
+			String richiesta = null;
 				
-				try {
-					richiesta = diStream.readUTF();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			try {
+				richiesta = diStream.readUTF();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 				
-				StringTokenizer st = new StringTokenizer(richiesta);
-				int riga1 = Integer.parseInt(st.nextToken());
-				int riga2 = Integer.parseInt(st.nextToken());
+			StringTokenizer st = new StringTokenizer(richiesta);
+			int riga1 = Integer.parseInt(st.nextToken());
+			int riga2 = Integer.parseInt(st.nextToken());
 				
 				
-				result = scambiaRighe(riga1, riga2);
+			result = scambiaRighe(riga1, riga2);
 			
 				
-				ByteArrayOutputStream boStream = new ByteArrayOutputStream();
-				DataOutputStream doStream = new DataOutputStream(boStream);
+			ByteArrayOutputStream boStream = new ByteArrayOutputStream();
+			DataOutputStream doStream = new DataOutputStream(boStream);
 				
-				try {
-					doStream.writeUTF(Integer.toString(result));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			try {
+				doStream.writeUTF(Integer.toString(result));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 				
-				data = boStream.toByteArray();
-				packet.setData(data);
+			data = boStream.toByteArray();
+			packet.setData(data);
 				
-				try {
-					socket.send(packet);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			try {
+				socket.send(packet);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				
+			socket.close();
 		}
 	}
 
@@ -111,7 +114,10 @@ public class SwapRowServer extends Thread {
 		for(int i=1; i<=(nRiga1>nRiga2 ? nRiga1 : nRiga2); i++) {
 			
 			try {
-				line = br.readLine();
+				if((line = br.readLine())==null) {
+					System.out.println("Numero riga errata.");
+					return 3;
+				}
 			} catch (IOException e) {
 				System.out.println("Errore nella lettura della linea n° "+ i);
 				try {
@@ -137,7 +143,7 @@ public class SwapRowServer extends Thread {
 		
 		
 		//Apro un file temp e copio il file originale con le righe scambiate
-		File temp = new File(this.filename+"Temp.txt");
+		File temp = new File(this.filename.substring(0, this.filename.length()-4)+"Temp.txt");
 		try {
 			br = new BufferedReader(new FileReader(this.filename));
 		} catch (FileNotFoundException e) {
