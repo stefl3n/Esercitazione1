@@ -71,7 +71,8 @@ public class DiscoveryServer {
 		
 		else
 		{
-			doStream.writeUTF(table.get(nomeFile).toString()); 
+			doStream.writeUTF(table.get(nomeFile).toString());
+			System.out.println(table.get(nomeFile).toString());
 		}
 		
 		data = boStream.toByteArray();
@@ -79,17 +80,8 @@ public class DiscoveryServer {
 		
 		packet.setData(data);
 		socket.send(packet);
-		
-		
-		System.out.println(table.get(nomeFile).toString());
-		System.out.println(data.toString());
-		
-		
-		
-	
+
 		}
 		
-		
 	}
-
 }
