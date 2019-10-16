@@ -67,11 +67,9 @@ public class SwapRowServer extends Thread {
 				int riga1 = Integer.parseInt(st.nextToken());
 				int riga2 = Integer.parseInt(st.nextToken());
 				
-				try {
-					result = scambiaRighe(riga1, riga2);
-				} catch (IOException e) {
-					System.out.println("Errore BufferedReader/BufferedWriter.");
-				}
+				
+				result = scambiaRighe(riga1, riga2);
+			
 				
 				ByteArrayOutputStream boStream = new ByteArrayOutputStream();
 				DataOutputStream doStream = new DataOutputStream(boStream);
@@ -95,7 +93,7 @@ public class SwapRowServer extends Thread {
 		}
 	}
 
-	private int scambiaRighe (int nRiga1, int nRiga2) throws IOException {
+	private int scambiaRighe (int nRiga1, int nRiga2){
 		String riga1 = null;
 		String riga2= null;
 		String line = null;
@@ -116,7 +114,11 @@ public class SwapRowServer extends Thread {
 				line = br.readLine();
 			} catch (IOException e) {
 				System.out.println("Errore nella lettura della linea n° "+ i);
-				br.close();
+				try {
+					br.close();
+				} catch (IOException e1) {
+					System.out.println("Errore chiusura BufferedReader");
+				}
 				return 2;
 			}
 			
@@ -146,7 +148,12 @@ public class SwapRowServer extends Thread {
 			bw = new BufferedWriter(new FileWriter(temp));
 		} catch (IOException e) {
 			System.out.println("Errore apertura BufferedReader per la SCRITTURA del file temporaneo.");
-			br.close();
+			
+			try {
+				br.close();
+			} catch (IOException e1) {
+				System.out.println("Errore chiusura BufferedReader");
+			}
 			return 2;
 		}
 		
@@ -169,8 +176,13 @@ public class SwapRowServer extends Thread {
 			}
 		} catch (IOException e) {
 			System.out.println("Errore nella SCRITTURA delle linee sul file temporaneo.");
-			bw.close();
-			br.close();
+			try {
+				bw.close();
+				br.close();
+			} catch (IOException e1) {
+				System.out.println("Errore BufferedReader/BufferedWriter");
+			}
+			
 			return 2;
 		}
 		
@@ -190,7 +202,7 @@ public class SwapRowServer extends Thread {
 			System.out.println("Errore durante l'eliminazione del file originale.");
 			return 2;
 		}
-		temp.renameTo(new File(this.filename));	
+		temp.renameTo(new File(this.filename));
 		System.out.println("Scambio avvenuto con successo");
 		return 0;
 	}
