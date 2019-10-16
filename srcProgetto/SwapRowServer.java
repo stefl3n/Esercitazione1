@@ -14,6 +14,7 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 public class SwapRowServer extends Thread {
@@ -30,8 +31,8 @@ public class SwapRowServer extends Thread {
 		try {
 			this.socket = new DatagramSocket(port);
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.exit(1);
 		}
 		
 		buf = new byte[256];
@@ -41,7 +42,7 @@ public class SwapRowServer extends Thread {
 	public void run() {
 		
 		while(true) {
-			int result = -1;
+			int result = -1, riga1 = 0, riga2 = 0;
 			byte[] data = null;
 			
 			packet.setData(buf);
@@ -49,8 +50,8 @@ public class SwapRowServer extends Thread {
 			try {
 				socket.receive(packet);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				System.exit(2);
 			}
 			
 			ByteArrayInputStream biStream = new ByteArrayInputStream(packet.getData(),0, packet.getLength());
@@ -60,26 +61,32 @@ public class SwapRowServer extends Thread {
 			try {
 				richiesta = diStream.readUTF();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.exit(2);
 			}
 				
 			StringTokenizer st = new StringTokenizer(richiesta);
-			int riga1 = Integer.parseInt(st.nextToken());
-			int riga2 = Integer.parseInt(st.nextToken());
-				
+			try {
+				riga1 = Integer.parseInt(st.nextToken());
+				riga2 = Integer.parseInt(st.nextToken());
+			}catch(NumberFormatException e) {
+				System.out.println("Errore nel passaggio delle righe");
+				System.exit(3);
+			}catch (NoSuchElementException e) {
+				System.out.println("Errore riga mancante");
+				System.exit(3);
+			}
 				
 			result = scambiaRighe(riga1, riga2);
 			
-				
 			ByteArrayOutputStream boStream = new ByteArrayOutputStream();
 			DataOutputStream doStream = new DataOutputStream(boStream);
 				
 			try {
 				doStream.writeUTF(Integer.toString(result));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.exit(2);
 			}
 				
 			data = boStream.toByteArray();
@@ -88,8 +95,8 @@ public class SwapRowServer extends Thread {
 			try {
 				socket.send(packet);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.exit(2);
 			}
 				
 		}
