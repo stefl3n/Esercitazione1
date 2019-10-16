@@ -10,11 +10,12 @@ import java.net.*;
 public class Client {
 	public static void main(String[] args) {
 		
-		InetAddress addr = null; int port = -1;
+		InetAddress addr = null; int port = -1; String nomeFile = null;
 		
 		try {
 			if(args.length == 3) {
 				
+				nomeFile = args[2];
 				addr = InetAddress.getByName(args[0]);
 				port = Integer.parseInt(args[1]);
 				
@@ -53,7 +54,7 @@ public class Client {
 		DataOutputStream doStream = null;
 		try {
 			
-			String nomeFile = args[2]; 
+			 
 			boStream = new ByteArrayOutputStream();
 			doStream = new DataOutputStream(boStream);
 			doStream.writeUTF(nomeFile);
