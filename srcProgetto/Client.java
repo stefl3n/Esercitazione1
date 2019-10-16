@@ -62,7 +62,7 @@ public class Client {
 		} catch (IOException ioe) {
 			System.err.println("IOException writeUTF");
 			System.out.println("errore nella writeUTF");
-			System.exit(4);
+			System.exit(5);
 		}
 		
 		try {
@@ -115,7 +115,7 @@ public class Client {
 				
 				System.err.println("IOException readUTF");
 				System.out.println("errore nella readUTF");
-				System.exit(6);
+				System.exit(5);
 			}
 			
 			if (lineeSwap != null && lineeSwap.equals("-1")) {
@@ -127,7 +127,7 @@ public class Client {
 				} catch (IOException e) {
 					System.out.println("Errore writeUTF");
 					e.printStackTrace();
-					System.exit(4);
+					System.exit(5);
 					
 				}
 				linee = boStream1.toByteArray();
@@ -156,7 +156,7 @@ public class Client {
 				} catch (IOException e) {
 					System.err.println("IOException readUTF");
 					System.out.println("errore nella readUTF");
-					System.exit(6);
+					System.exit(5);
 				}
 				if(risposta.equals("0")) {
 					System.exit(0);
