@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.net.*;
 
 public class Client {
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	public static void main(String[] args) {
 		
 		InetAddress addr = null; int port = -1;
 		
@@ -49,10 +49,10 @@ public class Client {
 		
 		//richiesta file al server
 		byte[] data = null;
+		ByteArrayOutputStream boStream = null; 
+		DataOutputStream doStream = null;
 		try {
-			ByteArrayOutputStream boStream = null; 
-			DataOutputStream doStream = null;
-			 
+			
 			String nomeFile = args[2]; 
 			boStream = new ByteArrayOutputStream();
 			doStream = new DataOutputStream(boStream);
@@ -92,43 +92,84 @@ public class Client {
 		byte[] linee;
 		biStream = new ByteArrayInputStream(packet.getData(), 0, packet.getLength());
 		diStream = new DataInputStream(biStream);
-		int portaRS;//Hp:server inviera' sicuramente un intero
+		int portaRS = -1;//Hp:server inviera' sicuramente un intero
 		String lineeSwap = null;
 		BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-		portaRS = Integer.parseInt(diStream.readUTF());
 		
-		//ARRIVATO QUI, TERMINO ENTRO DOMANI
-		
-		packet.setPort(portaRS);
-		
-		System.out.println("Inserisci le linee da swappare separate da uno spazio");
-		
-		lineeSwap = stdin.readLine();
-		
-		if (lineeSwap != null || lineeSwap.equals("-1")) {
-			
-			boStream1 = new ByteArrayOutputStream();
-			doStream1 = new DataOutputStream(boStream1);
-			doStream1.writeUTF(lineeSwap);
-			linee = boStream1.toByteArray();
-			packet.setData(linee);
-			socket.send(packet);
-			String risposta;
-			socket.receive(packet);
-			biStream = new ByteArrayInputStream(packet.getData(),0,packet.getLength());
-			diStream = new DataInputStream(biStream);
-			risposta = diStream.readUTF();
-			if(risposta.equals("0")) {
-				System.exit(0);
-			}else {
-				System.exit(1);
+			try {
+				
+				portaRS = Integer.parseInt(diStream.readUTF());
+				packet.setPort(portaRS);//Setto la porta a cui richiedere il cambio riga
+				
+				System.out.println("Inserisci le linee da swappare separate da uno spazio");
+				
+				lineeSwap = stdin.readLine();
+			} catch (NumberFormatException e) {
+				
+				System.err.println(portaRS+" non e' un intero");
+			     System.out.println("Inserire porta(intero)");
+			     System.exit(3);
+			     
+			} catch (IOException e) {
+				
+				System.err.println("IOException readUTF");
+				System.out.println("errore nella readUTF");
+				System.exit(6);
 			}
 			
-		}else {
-			
-			System.exit(1);
-			
-		}
+			if (lineeSwap != null && lineeSwap.equals("-1")) {
+				
+				boStream1 = new ByteArrayOutputStream();
+				doStream1 = new DataOutputStream(boStream1);
+				try {
+					doStream1.writeUTF(lineeSwap);
+				} catch (IOException e) {
+					System.out.println("Errore writeUTF");
+					e.printStackTrace();
+					System.exit(4);
+					
+				}
+				linee = boStream1.toByteArray();
+				packet.setData(linee);
+				try {// invio righe da scambiare
+					socket.send(packet);
+				} catch (IOException e) {
+					System.err.println("IOException socket send");
+					System.out.println("errore nell'invio al server");
+					System.exit(5);
+				}
+				String risposta = null;
+				try {//Ricezione risposta da RS
+					
+					socket.receive(packet);
+				
+				} catch (IOException e) {
+					System.err.println("IOException socket receive");
+					System.out.println("errore nella ricezione dal server");
+					System.exit(5);
+				}
+				biStream = new ByteArrayInputStream(packet.getData(),0,packet.getLength());
+				diStream = new DataInputStream(biStream);
+				try {
+					risposta = diStream.readUTF();
+				} catch (IOException e) {
+					System.err.println("IOException readUTF");
+					System.out.println("errore nella readUTF");
+					System.exit(6);
+				}
+				if(risposta.equals("0")) {
+					System.exit(0);
+				}else {
+					System.exit(1);
+				}
+				
+			}else {
+				
+				System.out.println("Errore inserimento righe");
+				System.exit(1);
+				
+			}
+		
 		
 		
 	}
