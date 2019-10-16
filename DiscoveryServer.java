@@ -50,7 +50,7 @@ public class DiscoveryServer {
 		
 		
 		while(true) {
-			try {
+			
 		packet.setData(buf);
 		socket.receive(packet);
 		ByteArrayInputStream biStream = new ByteArrayInputStream(packet.getData(),0,packet.getLength());
@@ -80,12 +80,7 @@ public class DiscoveryServer {
 		System.out.println(table.get(nomeFile).toString());
 		System.out.println(data.toString());
 		}
-			}
-			catch(FileNotFoundException e)
-			{
-				table.remove(e.getMessage());
-				System.out.println(table.toString());
-			}
+		
 		
 	
 		}
