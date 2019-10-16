@@ -24,7 +24,14 @@ public class DiscoveryServer {
 		{
 			fileName=args[j];
 			portNum=Integer.parseInt(args[j+1]);
+			if(table.containsValue(portNum))
+			{
+				System.out.println("Porta gia inserita:"+portNum);
+				System.exit(-1);
+				
+			}
 			
+
 			table.put(fileName, portNum);
 		}
 		for( String key : table.keySet())
@@ -43,6 +50,7 @@ public class DiscoveryServer {
 		
 		
 		while(true) {
+			
 		packet.setData(buf);
 		socket.receive(packet);
 		ByteArrayInputStream biStream = new ByteArrayInputStream(packet.getData(),0,packet.getLength());
@@ -55,7 +63,13 @@ public class DiscoveryServer {
 		
 		ByteArrayOutputStream boStream = new ByteArrayOutputStream();
 		DataOutputStream doStream = new DataOutputStream(boStream); 
-		doStream.writeUTF(table.get(fileName).toString()); 
+		if(table.get(nomeFile)==null)
+		{
+			System.out.println("file non esistente");
+		}
+		else
+		{
+		doStream.writeUTF(table.get(nomeFile).toString()); 
 		data = boStream.toByteArray();
 		
 		
@@ -63,8 +77,10 @@ public class DiscoveryServer {
 		socket.send(packet);
 		
 		
-		System.out.println(table.get(fileName).toString());
+		System.out.println(table.get(nomeFile).toString());
 		System.out.println(data.toString());
+		}
+		
 		
 	
 		}
