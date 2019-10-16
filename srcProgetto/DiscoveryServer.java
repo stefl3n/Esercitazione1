@@ -66,10 +66,14 @@ public class DiscoveryServer {
 		if(table.get(nomeFile)==null)
 		{
 			System.out.println("file non esistente");
+			doStream.writeUTF("-1"); 
 		}
+		
 		else
 		{
-		doStream.writeUTF(table.get(nomeFile).toString()); 
+			doStream.writeUTF(table.get(nomeFile).toString()); 
+		}
+		
 		data = boStream.toByteArray();
 		
 		
@@ -79,7 +83,7 @@ public class DiscoveryServer {
 		
 		System.out.println(table.get(nomeFile).toString());
 		System.out.println(data.toString());
-		}
+		
 		
 		
 	

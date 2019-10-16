@@ -18,6 +18,7 @@ public class Client {
 				nomeFile = args[2];
 				addr = InetAddress.getByName(args[0]);
 				port = Integer.parseInt(args[1]);
+				System.out.println(addr.getHostAddress());
 				
 			}else {
 				
@@ -100,6 +101,11 @@ public class Client {
 			try {
 				
 				portaRS = Integer.parseInt(diStream.readUTF());
+				if(portaRS==-1) //il file non esiste
+				{
+					System.out.println("il file non esiste");
+					System.exit(-1);
+				}
 				packet.setPort(portaRS);//Setto la porta a cui richiedere il cambio riga
 				
 				System.out.println("Inserisci le linee da swappare separate da uno spazio");
