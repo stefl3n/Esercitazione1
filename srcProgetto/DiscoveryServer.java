@@ -41,8 +41,9 @@ public class DiscoveryServer {
 		byte[] data=new byte[256];
 		DatagramPacket packet = new DatagramPacket(buf,buf.length);
 		
-		packet.setData(buf);
+		
 		while(true) {
+		packet.setData(buf);
 		socket.receive(packet);
 		ByteArrayInputStream biStream = new ByteArrayInputStream(packet.getData(),0,packet.getLength());
 		DataInputStream diStream = new DataInputStream(biStream); 
