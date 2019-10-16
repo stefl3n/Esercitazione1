@@ -191,6 +191,7 @@ public class SwapRowServer extends Thread {
 			return 2;
 		}
 		temp.renameTo(new File(this.filename));	
+		System.out.println("Scambio avvenuto con successo");
 		return 0;
 	}
 }
