@@ -92,7 +92,6 @@ public class SwapRowServer extends Thread {
 				e.printStackTrace();
 			}
 				
-			socket.close();
 		}
 	}
 
