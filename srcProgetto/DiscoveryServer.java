@@ -19,7 +19,7 @@ public class DiscoveryServer {
 		int portNum;
 		int hostPort;
 		
-		if((args.length%2)!=0)//controllo numero argomenti
+		if(((args.length-1)%2)!=0)//controllo numero argomenti
 		{
 			System.out.println("Numero argomenti errato");
 			System.exit(-1);
