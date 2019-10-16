@@ -105,6 +105,7 @@ public class Client {
 				System.out.println("Inserisci le linee da swappare separate da uno spazio");
 				
 				lineeSwap = stdin.readLine();
+				
 			} catch (NumberFormatException e) {
 				
 				System.err.println(portaRS+" non e' un intero");
@@ -118,7 +119,7 @@ public class Client {
 				System.exit(5);
 			}
 			
-			if (lineeSwap != null && lineeSwap.equals("-1")) {
+			if (lineeSwap != null && !lineeSwap.equals("-1")) {
 				
 				boStream1 = new ByteArrayOutputStream();
 				doStream1 = new DataOutputStream(boStream1);
@@ -159,11 +160,13 @@ public class Client {
 					System.exit(5);
 				}
 				if(risposta.equals("0")) {
+					System.out.println("Successo");
 					System.exit(0);
 				}else {
+					System.out.println("Errore");
 					System.exit(1);
 				}
-				
+			System.exit(0);	
 			}else {
 				
 				System.out.println("Errore inserimento righe");
