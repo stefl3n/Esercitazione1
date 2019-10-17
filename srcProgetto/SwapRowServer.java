@@ -59,7 +59,6 @@ public class SwapRowServer extends Thread {
 			byte[] data = null;
 			
 			packet.setData(buf);
-			
 			try {
 				socket.receive(packet);
 			} catch (IOException e1) {
