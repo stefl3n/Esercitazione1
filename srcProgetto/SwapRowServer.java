@@ -22,7 +22,10 @@ public class SwapRowServer extends Thread {
 	DatagramPacket packet = null;
 	byte[] buf = null;
 	String filename = null;
-	int port;
+	int port=-1;
+	
+	//Il costruttore si occupa di inizializzare uno dei Thread SwapRowServer con i parametri file,porta passati dal DiscoveryServer
+	//ed inizializza la socket ed il packet utilizzati per ricevere la richiesta di scambioRighe dal Cliente ed inviare il risultato.
 	
 	public SwapRowServer (String filename, int port) {
 		this.filename = filename;
@@ -38,6 +41,10 @@ public class SwapRowServer extends Thread {
 		buf = new byte[256];
 		this.packet = new DatagramPacket(buf, buf.length);
 	}
+	
+	//Siccome, appunto, il nostro SwapRowServer viene invocato come Thread dal DiscoveryServer, l'esecuzione avviene attraverso il metodo run()
+	//che si occupa di attendere la richiesta da un cliente di scambio, ottenere il numero delle due righe richieste dal packet ricevuto ed eseguire
+	//lo scambio delle righe tramite il metodo scambiaRighe(riga1, riga2) che restituisce il risultato dello scambio, inviandolo poi al cliente.
 	
 	public void run() {
 		
@@ -101,6 +108,10 @@ public class SwapRowServer extends Thread {
 				
 		}
 	}
+	
+	//Il metodo scambiaRighe Utilizza un BufferedReader per leggere dal file richiesto dal cliente le due righe da scambiare, con i dovuti controlli*
+	//poi crea un file temporaneo nel quale riscrivere il file originale con le righe scambiate. Se tutto va come previsto, elimino il file originale
+	//e rinomino il file temporaneo.
 
 	private int scambiaRighe (int nRiga1, int nRiga2){
 		String riga1 = null;
