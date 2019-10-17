@@ -8,14 +8,9 @@ public class DiscoveryServer {
 	public static void main(String args[])  {
 		
 		Hashtable<String, Integer> table=new Hashtable<String, Integer>(args.length-1);
-		InputStreamReader in= new InputStreamReader(System.in);
-		BufferedReader InRd= new BufferedReader(in);
 		String fileName=new String();
 		String nomeFile=new String();
 		String richiesta=new String();
-		
-		
-		int numLinea;
 		int portNum;
 		int hostPort;
 		
@@ -53,17 +48,7 @@ public class DiscoveryServer {
 						
 					}
 				table.put(fileName, portNum);
-			
-			
-				
-
 		}
-		
-		
-	
-			
-
-		
 		
 		for( String key : table.keySet())
 		{
@@ -132,7 +117,10 @@ public class DiscoveryServer {
 			e.printStackTrace();
 			System.exit(-3);
 		}
-		
+		catch(NoSuchElementException e) {
+			e.printStackTrace();
+			System.exit(-4);
+		}
 		
 	}
 }

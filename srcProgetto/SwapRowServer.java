@@ -22,7 +22,8 @@ public class SwapRowServer extends Thread {
 	DatagramPacket packet = null;
 	byte[] buf = null;
 	String filename = null;
-	int port;
+	int port=-1;
+	
 	
 	public SwapRowServer (String filename, int port) {
 		this.filename = filename;
@@ -38,6 +39,7 @@ public class SwapRowServer extends Thread {
 		buf = new byte[256];
 		this.packet = new DatagramPacket(buf, buf.length);
 	}
+	
 	
 	public void run() {
 		
@@ -101,6 +103,7 @@ public class SwapRowServer extends Thread {
 				
 		}
 	}
+	
 
 	private int scambiaRighe (int nRiga1, int nRiga2){
 		String riga1 = null;
