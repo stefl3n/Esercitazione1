@@ -73,13 +73,16 @@ public class SwapRowServer extends Thread {
 				riga2 = Integer.parseInt(st.nextToken());
 			}catch(NumberFormatException e) {
 				System.out.println("Errore nel passaggio delle righe");
-				System.exit(3);
+				result=4
 			}catch (NoSuchElementException e) {
 				System.out.println("Errore riga mancante");
-				System.exit(3);
+				result=4;
 			}
-				
-			result = scambiaRighe(riga1, riga2);
+			
+			if(result!=4) {
+				result = scambiaRighe(riga1, riga2);
+			}
+			
 			
 			ByteArrayOutputStream boStream = new ByteArrayOutputStream();
 			DataOutputStream doStream = new DataOutputStream(boStream);
