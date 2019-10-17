@@ -168,17 +168,17 @@ public class Client {
 				if(risposta.equals("0")) {
 					System.out.println("Successo");
 					System.exit(0);
-				}if (risposta.equals("1"){
-					Syste.out.println("File non trovato");
+				}if (risposta.equals("1")){
+					System.out.println("File non trovato");
 					System.exit(1);
-				}if (risposta.equals("2"){
+				}if (risposta.equals("2")){
 					System.out.println("Errore elaborazione RSserver");
 					System.exit(2);
-				}if(risposta.equals("3"){
-					System.out.println("Errore inserimento righe");
+				}if(risposta.equals("3")){
+					System.out.println("Errore una delle righe non è presente nel file.");
 					System.exit(3);
-				}if(risposta.equals("4"){
-					System.out.println("Errore inserimente righe: è stata inserita una sola riga");
+				}if(risposta.equals("4")){
+					System.out.println("Errore inserimente righe");
 					System.exit(4);
 				}
 			
