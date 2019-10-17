@@ -125,7 +125,7 @@ public class Client {
 				System.exit(5);
 			}
 			
-			if (lineeSwap != null && !lineeSwap.equals("-1")) {
+			if (lineeSwap != null ) {
 				
 				boStream1 = new ByteArrayOutputStream();
 				doStream1 = new DataOutputStream(boStream1);
@@ -177,9 +177,9 @@ public class Client {
 				}if(risposta.equals("3"){
 					System.out.println("Errore inserimento righe");
 					System.exit(3);
-				}if(risposta.equals("-1"){
+				}if(risposta.equals("4"){
 					System.out.println("Errore inserimente righe: è stata inserita una sola riga");
-					System.exit(-1);
+					System.exit(4);
 				}
 			
 			System.exit(0);	
