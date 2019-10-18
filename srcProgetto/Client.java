@@ -21,7 +21,8 @@ public class Client {
 				System.out.println(addr.getHostAddress());
 				
 			}else {
-				
+
+				System.out.println("Numero argomenti errato");				
 				System.exit(1);
 				
 			}

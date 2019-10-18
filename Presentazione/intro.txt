@@ -1,3 +1,0 @@
-Per la risoluzione dell'esercizio viene utilizzato il modello Client/Server e la comunicazione tra queste due entità avviene tramite le socket datagram le quali si appoggiano sul protocollo UDP.
-
-In breve il client richiede lo scambio di due righe in un file remoto. Il server ha un thread per ogni file da gestire e informa il client sulla porta corretta da usare per effettuare lo scambio delle righe.
